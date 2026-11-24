@@ -1,0 +1,24 @@
+name: Flutter CI
+on:
+  pull_request:
+  push:
+    branches: [main, refactor/project-foundation]
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+      - run: flutter --version
+      - run: flutter pub get
+      - run: flutter analyze
+      - run: flutter test
+      - run: flutter build web --release
+      - name: Check formatting (baseline debt reported separately)
+        run: dart format --output=none --set-exit-if-changed lib test
+        continue-on-error: true
