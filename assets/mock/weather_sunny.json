@@ -1,0 +1,1 @@
+{"condition": "sunny", "tempC": 32, "feelsLikeC": 31, "humidity": 65, "hourly": [{"hour": "09", "temp": 32, "chance": 10}, {"hour": "12", "temp": 33, "chance": 30}, {"hour": "15", "temp": 34, "chance": 60}, {"hour": "18", "temp": 30, "chance": 20}]}

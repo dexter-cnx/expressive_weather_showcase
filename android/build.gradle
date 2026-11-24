@@ -1,0 +1,7 @@
+allprojects { repositories { google(); mavenCentral() } }
+// STANDARD Flutter template - DO NOT REMOVE.
+// Flutter looks for the .apk at build/app/outputs/flutter-apk/
+rootProject.buildDir = '../build'
+subprojects { project.buildDir = "${rootProject.buildDir}/${project.name}" }
+subprojects { project.evaluationDependsOn(':app') }
+tasks.register("clean", Delete) { delete rootProject.buildDir }
