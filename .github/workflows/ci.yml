@@ -2,23 +2,32 @@ name: Flutter CI
 on:
   pull_request:
   push:
-    branches: [main, refactor/project-foundation]
+    branches: [main]
 permissions:
   contents: read
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: subosito/flutter-action@v2
         with:
+          flutter-version: '3.50.1'
           channel: stable
           cache: true
       - run: flutter --version
       - run: flutter pub get
+      - name: Generate candidate formatting and lockfile for review
+        run: |
+          dart format lib test
+          git diff -- lib test pubspec.lock
       - run: flutter analyze
       - run: flutter test
       - run: flutter build web --release
-      - name: Check formatting (baseline debt reported separately)
-        run: dart format --output=none --set-exit-if-changed lib test
-        continue-on-error: true
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - run: flutter build apk --debug
+      - name: Verify generated files are committed
+        run: git diff --exit-code -- lib test pubspec.lock
