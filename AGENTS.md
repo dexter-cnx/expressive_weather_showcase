@@ -1,2 +1,10 @@
-# Agents
-Do not add rootProject.buildDir redirect. Flutter expects apk under android/app/build. KGP 2.4.20, AGP 9.3.1, Gradle 9.5.0.
+# Agent instructions
+Read [product](docs/PRODUCT_SPEC.md), [design](DESIGN.md), [architecture](docs/ARCHITECTURE.md) and [roadmap](docs/ROADMAP.md) before editing. These are the canonical planning documents; code and test evidence determine actual implementation status.
+## Workflow
+One scoped branch/PR per roadmap item. Inspect current main and open PRs before work. Do not merge, force-push, delete branches, or alter unrelated code without explicit owner approval. Keep commits focused. Include requirement IDs, acceptance checklist, changed files, test evidence, screenshots for UI and outstanding risks in PR body. Do not start next milestone with failed prerequisites.
+## Coding
+Feature-first, pure Dart domain, immutable state, repository contracts, DI at composition root, semantic design tokens. No hardcoded UI strings/colors except tokens/fixtures. Keep EN/TH in sync. Mock default must work offline without permissions/key; demo clearly labeled. Never invent live observations or hide stale data. Handle nulls, errors, races and disposal. Use injectable time and deterministic fixtures. Reduced motion and keyboard/semantics required.
+## Dependencies and platform
+Use compatible pinned dependencies/committed lockfile; verify SDK and APIs before upgrading. Preserve existing Android build constraints: do not add rootProject.buildDir redirect; Flutter expects APK under android/app/build. Existing guidance: KGP 2.4.20, AGP 9.3.1, Gradle 9.5.0; verify against actual files before modification. Do not blindly copy BunPod pubspec or change Gradle files. No secrets or analytics; preserve third-party licenses and attribution.
+## Verification
+Run flutter pub get, dart format --output=none --set-exit-if-changed lib test (when test exists), flutter analyze, flutter test and appropriate flutter build. Report skipped/unavailable commands as such; never fabricate pass. Use fixture tests, representative golden matrix and real-device checks. Update roadmap/docs if approved scope changes. Do not suppress analyzer/test failures to get CI green.
