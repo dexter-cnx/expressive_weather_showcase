@@ -16,11 +16,8 @@ jobs:
           channel: stable
           cache: true
       - run: flutter --version
-      - run: flutter pub get
-      - name: Generate candidate formatting and lockfile for review
-        run: |
-          dart format lib test
-          git diff -- lib test pubspec.lock
+      - run: flutter pub get --enforce-lockfile
+      - run: dart format --output=none --set-exit-if-changed lib test
       - run: flutter analyze
       - run: flutter test
       - run: flutter build web --release

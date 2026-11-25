@@ -30,29 +30,35 @@ class WeatherCubit extends Cubit<WeatherState> {
     try {
       final weather = await repository.getWeather(condition);
       if (isClosed || generation != _generation) return;
-      emit(WeatherState(
-        condition: condition,
-        brightness: state.brightness,
-        weather: weather,
-      ));
+      emit(
+        WeatherState(
+          condition: condition,
+          brightness: state.brightness,
+          weather: weather,
+        ),
+      );
     } catch (_) {
       if (isClosed || generation != _generation) return;
-      emit(WeatherState(
-        condition: condition,
-        brightness: state.brightness,
-        failed: true,
-      ));
+      emit(
+        WeatherState(
+          condition: condition,
+          brightness: state.brightness,
+          failed: true,
+        ),
+      );
     }
   }
 
   void toggleBrightness() {
-    emit(WeatherState(
-      condition: state.condition,
-      brightness: state.brightness == Brightness.light
-          ? Brightness.dark
-          : Brightness.light,
-      weather: state.weather,
-      failed: state.failed,
-    ));
+    emit(
+      WeatherState(
+        condition: state.condition,
+        brightness: state.brightness == Brightness.light
+            ? Brightness.dark
+            : Brightness.light,
+        weather: state.weather,
+        failed: state.failed,
+      ),
+    );
   }
 }
